@@ -25,6 +25,9 @@
   justify-content: space-between;
 }
 
-.add-todo {
+.input {
   margin: 1em auto;
+  padding: 0.3em;
+  border: 1px solid red;
+  border-radius: 5px;
 }

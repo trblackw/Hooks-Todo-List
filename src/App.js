@@ -21,6 +21,12 @@ const App = () => {
     const newTodos = [...todos, { text }];
     setTodos(newTodos);
   };
+  const deleteTodo = todo => {
+    const newTodos = todos.filter(
+      item => item.text.toLowerCase() !== todo.text.toLowerCase()
+    );
+    setTodos(newTodos);
+  };
 
   return (
     <div className="app">
