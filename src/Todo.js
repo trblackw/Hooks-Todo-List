@@ -1,13 +1,22 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const Todo = ({ todo, index }) => {
+const Todo = ({ todo, index, remove, complete }) => {
   return (
-    <li className="todo" key={index}>
+    <li
+      className="todo"
+      key={index}
+      style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
+    >
       <p>{todo.text}</p>
       <div className="button-group">
         <Button color="#209cee">edit</Button>
-        <Button color="red">delete</Button>
+        <Button color="lightblue" onClick={() => complete(index)}>
+          complete
+        </Button>
+        <Button color="red" onClick={() => remove(todo)}>
+          delete
+        </Button>
       </div>
     </li>
   );
@@ -22,6 +31,5 @@ const Button = styled.button`
   color: whitesmoke;
   &:hover {
     cursor: pointer;
-    border: 1px solid red;
   }
 `;
