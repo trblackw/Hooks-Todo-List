@@ -17,6 +17,7 @@ const TodoForm = ({ addTodo }) => {
         className="input"
         value={value}
         onChange={e => setValue(e.target.value)}
+        placeholder="new todo"
       />
     </form>
   );
