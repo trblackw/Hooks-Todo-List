@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Todo from "./Todo";
 import TodoForm from "./TodoForm";
 
@@ -9,7 +9,7 @@ const App = () => {
       isCompleted: false
     },
     {
-      text: "Get better at Git",
+      text: "Get some sushi",
       isCompleted: false
     },
     {
@@ -32,21 +32,33 @@ const App = () => {
     newTodos[index].isCompleted = true;
     setTodos(newTodos);
   };
+  const editTodo = (index, value) => {
+    const newTodos = [...todos];
+    if (value !== "") {
+      newTodos[index].text = value;
+      console.log(newTodos[index]);
+    }
+    setTodos(newTodos);
+  };
 
   return (
     <div className="app">
       <TodoForm addTodo={addTodo} />
       <div className="todo-list">
-        {todos.map((todo, index) => (
-          <Todo
-            key={index}
-            index={index}
-            todo={todo}
-            remove={deleteTodo}
-            complete={completeTodo}
-            completed={todos.isCompleted}
-          />
-        ))}
+        {todos.length > 0 ? (
+          todos.map((todo, index) => (
+            <Todo
+              key={index}
+              index={index}
+              todo={todo}
+              remove={deleteTodo}
+              complete={completeTodo}
+              edit={editTodo}
+            />
+          ))
+        ) : (
+          <code>todos go here</code>
+        )}
       </div>
     </div>
   );

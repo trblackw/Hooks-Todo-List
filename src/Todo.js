@@ -1,17 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useToggle } from "./customHooks/useToggle";
 
 const Todo = ({ todo, index, remove, complete, edit }) => {
   const [open, toggle] = useToggle(false);
+  const [value, setValue] = useState(todo.text);
+
+  const handleBlur = () => {
+    edit(index, value);
+    toggle();
+  };
+
   return (
-    <li
-      className="todo"
-      key={index}
-      style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
-    >
-      <p>{todo.text}</p>
-      {open && <input type="text" value={todo.text} />}
+    <li key={index} className="todo">
+      {!open ? (
+        <p className={todo.isCompleted ? "strike" : ""}>{todo.text}</p>
+      ) : (
+        <input
+          type="text"
+          value={value}
+          onChange={e => setValue(e.target.value)}
+          onBlur={handleBlur}
+        />
+      )}
+
       <div className="button-group">
         <Button color="#209cee" onClick={() => toggle()}>
           edit
@@ -33,6 +45,7 @@ const Button = styled.button`
   border: none;
   border-radius: 4px;
   background: ${props => props.color};
+  margin: 0 0.5em;
   color: whitesmoke;
   &:hover {
     cursor: pointer;
