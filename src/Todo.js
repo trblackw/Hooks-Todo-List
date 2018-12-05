@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
+import { useToggle } from "./customHooks/useToggle";
 
-const Todo = ({ todo, index, remove, complete }) => {
+const Todo = ({ todo, index, remove, complete, edit }) => {
+  const [open, toggle] = useToggle(false);
   return (
     <li
       className="todo"
@@ -9,8 +11,11 @@ const Todo = ({ todo, index, remove, complete }) => {
       style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
     >
       <p>{todo.text}</p>
+      {open && <input type="text" value={todo.text} />}
       <div className="button-group">
-        <Button color="#209cee">edit</Button>
+        <Button color="#209cee" onClick={() => toggle()}>
+          edit
+        </Button>
         <Button color="lightblue" onClick={() => complete(index)}>
           complete
         </Button>
