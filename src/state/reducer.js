@@ -1,4 +1,5 @@
 import { TOGGLE_TODO, DELETE_TODO } from "../components/TodoList";
+import { ADD_TODO } from "../components/AddTodoForm";
 
 const TodosReducer = (state = {}, action) => {
   const { type, todo: selectedTodo } = action;
@@ -19,15 +20,28 @@ const TodosReducer = (state = {}, action) => {
         todos: toggledTodos
       };
     case DELETE_TODO:
-        const remainingTodos = todos.filter(todo => todo.id !== selectedTodo.id);
-        console.log(
-         `%c {type: DELETE_TODO, todos: ${JSON.stringify(remainingTodos)}} `,
-         "color: red; font-weight: bold"
-       );
+      const remainingTodos = todos.filter(todo => todo.id !== selectedTodo.id);
+      console.log(
+        `%c {type: DELETE_TODO, todos: ${JSON.stringify(remainingTodos)}} `,
+        "color: red; font-weight: bold"
+      );
       return {
         ...state,
         todos: remainingTodos
       };
+    case ADD_TODO:
+      console.log(
+        `%c {type: ADD_TODO, todos: ${JSON.stringify(
+          ...todos,
+          selectedTodo
+        )}} `,
+        "color: green; font-weight: bold"
+      );
+      console.log(selectedTodo);
+    return {
+      ...state,
+      todos: [...todos, selectedTodo]
+    };
     default:
       return state;
   }
