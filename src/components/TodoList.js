@@ -6,16 +6,25 @@ import useToggle from "../hooks/useToggle";
 //actions
 export const TOGGLE_TODO = "TOGGLE_TODO";
 export const DELETE_TODO = "DELETE_TODO";
+export const EDIT_TODO = "EDIT_TODO";
+export const SET_CURRENT_TODO = "SET_CURRENT_TODO";
 
 const TodoList = () => {
   const { todos, dispatch } = useContext(TodosContext);
   const title = todos.length > 0 ? `${todos.length} Todos` : "no todos!";
   const [show, setShow] = useToggle(false);
+
+  const handleEdit = id => {
+    setShow(true);
+    const todo = todos.find(todo => todo.id === id);
+    dispatch({ type: SET_CURRENT_TODO, todo });
+  };
+
   return (
     <div className="container mx-auto max-w-md text-center font-mono">
       <h1 className="text-bold">{title}</h1>
       <button
-        className="my-3 border py-2 px-3 shadow bg-orange-light rounded hover:bg-orange-dark"
+        className="my-3 btn border py-2 px-3 shadow bg-orange-light rounded"
         onClick={() => setShow(true)}
       >
         <img
@@ -29,14 +38,15 @@ const TodoList = () => {
         />
       </button>
       {show && <AddTodoForm />}
-      <ul className="p-0 list-reset text-white">
+      <ul className="p-0 list-reset text-black">
         {todos.map(todo => (
           <li
             key={todo.id}
-            className="bg-orange-dark border-black border-dashed border-2 my-2 py-4 flex items-center"
+            className="bg-orange-light border-white border-dashed shadow-lg border-2 cursor-pointer my-3 py-4 flex items-center todo rounded"
           >
+            {/* <span className="text-sm text-grey-dark block flex-2">{todo.created.split(',')[1]}</span> */}
             <span
-              className={`cursor-pointer flex-1 ml-12 ${todo.complete &&
+              className={`flex-1 ml-12 ${todo.complete &&
                 "line-through text-grey-darkest"}`}
               onDoubleClick={() => dispatch({ type: TOGGLE_TODO, todo })}
             >
@@ -47,6 +57,7 @@ const TodoList = () => {
                 src="https://icon.now.sh/edit/0050c5"
                 alt="edit icon"
                 className="h-6"
+                onClick={() => handleEdit(todo.id)}
               />
             </button>
             <button

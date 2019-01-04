@@ -1,10 +1,19 @@
-import { TOGGLE_TODO, DELETE_TODO } from "../components/TodoList";
+import {
+  TOGGLE_TODO,
+  DELETE_TODO,
+  SET_CURRENT_TODO
+} from "../components/TodoList";
 import { ADD_TODO } from "../components/AddTodoForm";
 
 const TodosReducer = (state = {}, action) => {
   const { type, todo: selectedTodo } = action;
   const { todos } = state;
   switch (type) {
+    case SET_CURRENT_TODO:
+      return {
+        ...state,
+        currentTodo: selectedTodo
+      };
     case TOGGLE_TODO:
       const toggledTodos = todos.map(todo =>
         todo.id === selectedTodo.id
@@ -37,11 +46,10 @@ const TodosReducer = (state = {}, action) => {
         )}} `,
         "color: green; font-weight: bold"
       );
-      console.log(selectedTodo);
-    return {
-      ...state,
-      todos: [...todos, selectedTodo]
-    };
+      return {
+        ...state,
+        todos: [...todos, selectedTodo]
+      };
     default:
       return state;
   }
