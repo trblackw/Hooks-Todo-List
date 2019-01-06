@@ -3,13 +3,17 @@ import {
   DELETE_TODO,
   SET_CURRENT_TODO
 } from "../components/TodoList";
-import { ADD_TODO } from "../components/AddTodoForm";
+import { ADD_TODO, EDIT_TODO } from "../components/AddTodoForm";
 
-const TodosReducer = (state = {}, action) => {
+const TodosReducer = (state, action) => {
   const { type, todo: selectedTodo } = action;
-  const { todos } = state;
+  const { todos, currentTodo } = state;
   switch (type) {
     case SET_CURRENT_TODO:
+      console.log(
+        `%c {type: SET_CURRENT_TODO, todos: ${JSON.stringify(selectedTodo)}} `,
+        "color: yellow; font-weight: bold"
+      );
       return {
         ...state,
         currentTodo: selectedTodo
@@ -50,6 +54,16 @@ const TodosReducer = (state = {}, action) => {
         ...state,
         todos: [...todos, selectedTodo]
       };
+    case EDIT_TODO:
+      const edittedTodo = todos.find(todo => todo.id === currentTodo.id);
+      const index = todos.indexOf(edittedTodo);
+      const updatedTodos = [
+        ...todos.slice(index, 1),
+        edittedTodo,
+        ...todos.slice(index + 2)
+      ];
+      console.log(updatedTodos);
+      return state;
     default:
       return state;
   }
