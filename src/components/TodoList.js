@@ -6,19 +6,12 @@ import useToggle from "../hooks/useToggle";
 //actions
 export const TOGGLE_TODO = "TOGGLE_TODO";
 export const DELETE_TODO = "DELETE_TODO";
-export const EDIT_TODO = "EDIT_TODO";
 export const SET_CURRENT_TODO = "SET_CURRENT_TODO";
 
 const TodoList = () => {
   const { todos, dispatch } = useContext(TodosContext);
   const title = todos.length > 0 ? `${todos.length} Todos` : "no todos!";
   const [show, setShow] = useToggle(false);
-
-  const handleEdit = id => {
-    setShow(true);
-    const todo = todos.find(todo => todo.id === id);
-    dispatch({ type: SET_CURRENT_TODO, todo });
-  };
 
   return (
     <div className="container mx-auto max-w-md text-center font-mono">
@@ -57,7 +50,10 @@ const TodoList = () => {
                 src="https://icon.now.sh/edit/0050c5"
                 alt="edit icon"
                 className="h-6"
-                onClick={() => handleEdit(todo.id)}
+                onClick={() => {
+                  dispatch({ type: SET_CURRENT_TODO, todo });
+                  setShow(true);
+                }}
               />
             </button>
             <button
