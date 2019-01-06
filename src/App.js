@@ -5,9 +5,12 @@ import TodoList from "./components/TodoList";
 
 const App = () => {
   const initialState = useContext(TodosContext);
-  const [{ todos }, dispatch] = useReducer(TodosReducer, initialState);
+  const [{ todos, currentTodo }, dispatch] = useReducer(
+    TodosReducer,
+    initialState
+  );
   return (
-    <TodosContext.Provider value={{ todos, dispatch }}>
+    <TodosContext.Provider value={{ todos, currentTodo, dispatch }}>
       <TodoList />
     </TodosContext.Provider>
   );
