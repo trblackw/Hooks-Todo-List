@@ -34,12 +34,14 @@ const TodosReducer = (state, action) => {
       };
     case DELETE_TODO:
       const remainingTodos = todos.filter(todo => todo.id !== selectedTodo.id);
+      const isRemovedTo = currentTodo.id === selectedTodo.id ? {} : currentTodo;
       console.log(
         `%c {type: DELETE_TODO, todos: ${JSON.stringify(remainingTodos)}} `,
         "color: red; font-weight: bold"
       );
       return {
         ...state,
+        currentTodo: isRemovedTo,
         todos: remainingTodos
       };
     case ADD_TODO:
@@ -56,14 +58,20 @@ const TodosReducer = (state, action) => {
       };
     case EDIT_TODO:
       const edittedTodo = todos.find(todo => todo.id === currentTodo.id);
-      const index = todos.indexOf(edittedTodo);
-      const updatedTodos = [
-        ...todos.slice(index, 1),
-        edittedTodo,
-        ...todos.slice(index + 2)
-      ];
-      console.log(updatedTodos);
-      return state;
+      const modifiedTodos = todos.map(todo => {
+        if (todo.id === edittedTodo.id) {
+          const updatedTodo = { ...todo, text: edittedTodo.text };
+          todo = updatedTodo;
+          return todo;
+        } else {
+          return todo;
+        }
+      });
+      return {
+        ...state,
+        currentTodo: {},
+        todos: modifiedTodos
+      };
     default:
       return state;
   }
