@@ -1,23 +1,29 @@
 import { createContext } from "react";
+import { generateTimeStamp } from "../helpers";
+import uuidv4 from "uuid/v4";
 
 const TodosContext = createContext({
   todos: [
     {
-      id: 1,
+      id: uuidv4(),
       text: "Eat breakfast",
-      complete: false
+      complete: false,
+      created: generateTimeStamp()
     },
     {
-      id: 2,
+      id: uuidv4(),
       text: "Do laundry",
-      complete: false
+      complete: false,
+      created: generateTimeStamp()
     },
     {
-      id: 3,
+      id: uuidv4(),
       text: "Finish project",
-      complete: true
+      complete: true,
+      created: generateTimeStamp()
     }
-  ]
+  ],
+  currentTodo: {}
 });
 
 export default TodosContext;
