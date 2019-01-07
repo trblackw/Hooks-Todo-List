@@ -27,8 +27,11 @@ const AddTodoForm = () => {
   const handleInput = e => {
     if (!currentTodo.text) {
       return setTodo({ ...todo, text: e.target.value });
+    } else {
+      setTodo("");
     }
     setTodo({ ...currentTodo, text: e.target.value });
+    console.log(todo);
     return dispatch({ type: EDIT_TODO, todo });
   };
 
